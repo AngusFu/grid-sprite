@@ -1,0 +1,12 @@
+{
+  "editor.insertSpaces": true,
+  "editor.fontSize": 20,
+  "editor.wrappingColumn": 100,
+  "editor.mouseWheelScrollSensitivity": 2,
+  "editor.renderIndentGuides": true,
+  "editor.renderControlCharacters": true,
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "node_modules": true
+  }
+}

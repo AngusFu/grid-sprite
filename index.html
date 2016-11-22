@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grid Sprite</title>
+  <style>
+  .container {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+  .select {
+    cursor: pointer;
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    padding: 54px 54px;
+  }
+  .file {
+    display: none;
+  }
+  .canvas {
+    border: 2px dashed #0087F7;
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="select" id="jsSelectFile">
+      <div class="note">(文件拖放到这里或者点击选择文件)</div>
+      <input class="file" type="file" id="jsFileInput" accept="image/jpeg,image/png" multiple>
+    </div>
+
+    <canvas id="canvas"></canvas>
+  </div>
+  <script src="./lib/app.js"></script>
+</body>
+</html>

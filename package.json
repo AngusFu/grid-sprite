@@ -1,0 +1,46 @@
+{
+  "name": "grid-sprite",
+  "version": "1.0.0",
+  "description": "grid sprit generator",
+  "main": "./lib/app.js",
+  "scripts": {
+    "start": "npm-run-all --parallel watch browser",
+    "browser": "browser-sync start --server --reload-delay 1 --files \"*.html,lib/*\"",
+    "watch": "rollup -c -w",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AngusFu/grid-sprite.git"
+  },
+  "keywords": [
+    "sprite"
+  ],
+  "author": "angusfu1126@qq.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AngusFu/grid-sprite/issues"
+  },
+  "homepage": "https://github.com/AngusFu/grid-sprite#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-external-helpers": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-runtime": "^6.18.0",
+    "browser-sync": "^2.17.3",
+    "eslint": "^3.7.1",
+    "npm-run-all": "^3.1.0",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^2.5.0",
+    "uglify-js": "^2.7.3"
+  }
+}
