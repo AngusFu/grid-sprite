@@ -48,7 +48,6 @@ const drawGuideLines = function (context, rows, cols) {
   let height = canvas.height;
   let stepX  = width / cols;
   let stepY  = height / rows;
-  console.log(rows, cols); 
 
   // vertical
   for (let i = 0; i <= rows; i ++) {
@@ -105,7 +104,9 @@ const loadImage$ = function (url) {
   return new Promise(function (resolve) {
     let img = new Image();
     img.src = url;
-    img.onload = resolve;
+    img.onload = function () {
+      resolve(img);
+    };
   });
 };
 
@@ -119,8 +120,6 @@ const readFile$ = function (file) {
   });
 };
 
-
-const images = [];
 const context = document.getElementById('canvas').getContext('2d');
 
 const selectFile  = document.getElementById('jsSelectFile');
@@ -137,28 +136,8 @@ hiddenInput.addEventListener('change', (e) => {
   for (let i = 0; i < files.length; i++) {
     promises.push(readFile$(files[i]));
   }
-  Promise.all(promises).then((x) => console.log(x));
+  Promise.all(promises).then((imgs) => {
+    draw(context, imgs);
+  });
 });
 
-
-  // var reader = new FileReader();
-  // reader.readAsDataURL(file);
-
-  // reader.onload = function(e) {
-  //   let img = new Image();
-  //   img.src = e.target.result;
-    
-  //   img.onload = function () {
-  //     attachRemoveEvent(file);
-  //     file.img = img;
-  //     images.push(img);
-  // draw(context, images);
-  //   }
-  // };  
-async function x() {
-  console.log(222);
-}
-
-x();
-
-console.log(222);
