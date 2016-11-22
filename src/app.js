@@ -1,4 +1,4 @@
-// import 'babel-polyfill';
+import { drawGrid } from './drawGrid';
 
 const calcGridSize = (imgs) => {
   return imgs.reduce((accu, img) => {
@@ -12,90 +12,59 @@ const calcGridSize = (imgs) => {
 const calcCanvasSize = (imgs) => {
   let len = imgs.length;
   let { width, height } = calcGridSize(imgs);
-  let horizonPx = width * len;
 
-  let MAX = 500;
-  let beg = Math.ceil(horizonPx / MAX);
-  let end = Math.ceil(Math.sqrt(horizonPx));
+  let MAX = Math.floor(600 / width);
+  let beg = Math.ceil(len / MAX);
+  let end = Math.ceil(Math.sqrt(len));
 
   let minSize = 9e9;
 
+  let bestH = 0;
   let bestW = 0;
 
   for (let h = beg; h <= end; h++) {
-    let w = Math.ceil(horizonPx / h);
+    let w = Math.ceil(len / h);
     let size = w * h;
 
     if (size < minSize) {
       minSize = size;
       bestW = w;
+      bestH = h;
     }
-    if (size == horizonPx) {
+    if (size == len) {
       break;
     }
   }
-
+  
   return {
-    width: bestW,
-    height: height * Math.ceil(bestW / width),
+    width: width * bestW,
+    height: height * bestH,
     gridSize: { width, height }
   };
 };
 
-const drawGuideLines = function (context, rows, cols) {
-  let canvas = context.canvas;
-  let width  = canvas.width;
-  let height = canvas.height;
-  let stepX  = width / cols;
-  let stepY  = height / rows;
-
-  // vertical
-  for (let i = 0; i <= rows; i ++) {
-    context.save();
-    context.lineWidth = .5;
-    context.beginPath();
-    context.moveTo(i * stepX + .5, 0);
-    context.lineTo(i * stepX + .5, height);
-    context.stroke();
-    context.restore();
-  }
-  // horizontal
-  for (let i = 0; i <= cols; i ++) {
-    context.save();
-    context.lineWidth = .5;
-    context.beginPath();
-    context.moveTo(0, i * stepY + .5);
-    context.lineTo(width, i * stepY + .5);
-    context.stroke();
-    context.restore();
-  }
-};
-
 const draw = function (context, imgs) {
-  let {width, height, gridSize} = calcCanvasSize(imgs);
+  let { width, height, gridSize } = calcCanvasSize(imgs);
 
   let grid_w = gridSize['width'];
   let grid_h = gridSize['height'];
 
-  // images per line
+  // 列数
   let cols = width / grid_w;
-  let rows = height / grid_h;
-
   let canvas = context.canvas;
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   canvas.width = width;
   canvas.height = height;
   
-  drawGuideLines(context, rows, cols);
+  drawGrid(context, '#ccc', grid_w, grid_h);
 
   imgs.forEach((img, i) => {
     let img_w = img.width;
     let img_h = img.height;
 
-    let left = img_h * (i % cols) + (grid_w - img_w) / 2;
-    let top  = img_h * Math.floor(i / cols)+ (grid_h - img_h) / 2;
-
+    let left = grid_w * (i % cols) + (grid_w - img_w) / 2;
+    let top  = grid_h * Math.floor(i / cols)+ (grid_h - img_h) / 2;
     context.drawImage(img, left, top);
   });
 };
