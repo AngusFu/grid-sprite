@@ -1,5 +1,7 @@
-
-export function drawGrid(context, color, stepx, stepy) {
+/**
+ * draw guidlines
+ */
+export default function(context, color, stepx, stepy) {
   context.strokeStyle = color;
   context.lineWidth = 0.5;
 

@@ -4,33 +4,69 @@
   <meta charset="UTF-8">
   <title>Grid Sprite</title>
   <style>
+  body {
+    margin: 0;
+    background-color: #efefef;
+  }
   .container {
     margin: 0 auto;
     max-width: 700px;
   }
+
   .select {
     cursor: pointer;
     border: 2px dashed #0087F7;
     border-radius: 5px;
     background: white;
-    padding: 54px 54px;
+    padding: 10px 20px;
   }
   .file {
     display: none;
   }
+
+  .line {
+    display: inline-block;
+    margin: 20px 0;
+  }
+
+  label + input {
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 16px;
+    padding: 4px;
+  }
+  
   canvas {
-    background-color: #0087F7;
+    display: block;
+    margin: 30px auto;
+    border: 1px solid;
+  }
+
+  .download {
+    text-align: center;
   }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="select" id="jsSelectFile">
-      <div class="note">(文件拖放到这里或者点击选择文件)</div>
-      <input class="file" type="file" id="jsFileInput" accept="image/jpeg,image/png" multiple>
+  <div class="container" id="jsContainer">
+    <h2>Grid Sprite Generator</h2>
+    <button class="select" id="jsSelectFile">点击选择文件</button>
+    <input class="file" type="file" id="jsFileInput" accept="image/jpeg,image/png" multiple>
+
+    <div class="line">
+      <label for="gridX">X:</label>
+      <input type="number" id="gridX">
+    </div>
+
+    <div class="line">
+      <label for="gridY">Y:</label>
+      <input type="number" id="gridY">
     </div>
 
     <canvas id="canvas"></canvas>
+
+    <div class="download" id="jsDownload"></div>
   </div>
   <script src="./lib/app.js"></script>
 </body>
