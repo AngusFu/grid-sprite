@@ -13,7 +13,7 @@ export default function(imgs, gridSize) {
   let minSize = 9e9;
 
   // 默认
-  let bestH = Math.ceil(len / MAX);
+  let bestH = beg;
   let bestW = MAX;
 
   for (let h = beg; h <= end; h++) {
