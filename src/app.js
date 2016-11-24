@@ -31,7 +31,6 @@ const transformImagesToPos = function (context, canvasSize, gridSize, imgs) {
   return imgs.map((img, i) => {
     let img_w = img.width;
     let img_h = img.height;
-
     let x = grid_w * (i % cols);
     let y = grid_h * Math.floor(i / cols);
     let left = x + (grid_w - img_w) / 2;

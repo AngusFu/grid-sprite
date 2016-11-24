@@ -9,11 +9,12 @@ export default function(imgs, gridSize) {
   let MAX = Math.floor(800 / width);
   let beg = Math.ceil(len / MAX);
   let end = Math.ceil(Math.sqrt(len));
-
+  
   let minSize = 9e9;
 
-  let bestH = 0;
-  let bestW = 0;
+  // 默认
+  let bestH = Math.ceil(len / MAX);
+  let bestW = MAX;
 
   for (let h = beg; h <= end; h++) {
     let w = Math.ceil(len / h);
