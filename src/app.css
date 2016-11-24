@@ -1,0 +1,49 @@
+
+body {
+    margin: 0 50px;
+    padding: 10px;
+    color: black;
+    font-family: sans-serif;
+}
+body, button, input, select, textarea {
+    font-family: 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    -ms-text-autospace: ideograph-alpha ideograph-numeric ideograph-parenthesis;
+}
+.container {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.select {
+  cursor: pointer;
+  border: 2px dashed #0087F7;
+  border-radius: 5px;
+  background: white;
+  padding: 10px 20px;
+}
+.file {
+  display: none;
+}
+
+.line {
+  display: inline-block;
+  margin: 20px 0;
+}
+
+label + input {
+  width: 200px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  padding: 4px;
+}
+
+canvas {
+  display: block;
+  margin: 30px auto;
+  border: 1px solid;
+}
+
+.download {
+  text-align: center;
+}

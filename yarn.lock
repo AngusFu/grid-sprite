@@ -2170,7 +2170,7 @@ minimist@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.1:
+mkdirp, mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -2455,6 +2455,10 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
+prismjs:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.5.1.tgz#224990100ff6c2a7588d086be1a5ac62e83690f7"
+
 private@^0.1.6, private@~0.1.5:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.6.tgz#55c6a976d0f9bafb9924851350fe47b9b5fbb7c1"
@@ -2733,7 +2737,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@^2.2.8, rimraf@~2.5.1, rimraf@~2.5.4, rimraf@2:
+rimraf, rimraf@^2.2.8, rimraf@~2.5.1, rimraf@~2.5.4, rimraf@2:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.5.4.tgz#96800093cbf1a0c86bd95b4625467535c29dfa04"
   dependencies:
@@ -2764,6 +2768,12 @@ rollup-plugin-commonjs@^5.0.5:
     resolve "^1.1.7"
     rollup-pluginutils "^1.5.1"
 
+rollup-plugin-css-only:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-css-only/-/rollup-plugin-css-only-0.0.4.tgz#b2221e9a9973a1dff4d7bed20f3df557c9a132ea"
+  dependencies:
+    rollup-pluginutils "^1.5.2"
+
 rollup-plugin-eslint@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-eslint/-/rollup-plugin-eslint-3.0.0.tgz#4354c4e585e0d2bd925814e3dfc864cb792ec9a4"
@@ -2793,7 +2803,7 @@ rollup-plugin-uglify@^1.0.1:
   dependencies:
     uglify-js "^2.6.1"
 
-rollup-pluginutils@^1.3.1, rollup-pluginutils@^1.5.0, rollup-pluginutils@^1.5.1:
+rollup-pluginutils@^1.3.1, rollup-pluginutils@^1.5.0, rollup-pluginutils@^1.5.1, rollup-pluginutils@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-1.5.2.tgz#1e156e778f94b7255bfa1b3d0178be8f5c552408"
   dependencies:

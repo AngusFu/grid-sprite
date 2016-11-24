@@ -1,4 +1,6 @@
+import fs from 'fs';
 import resolve from 'rollup-plugin-node-resolve';
+import css from 'rollup-plugin-css-only';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import eslint from 'rollup-plugin-eslint';
@@ -12,6 +14,12 @@ export default {
   format: 'iife',
   sourceMap: true,
   plugins: [
+    // css
+    css({
+      output: function (styles, styleNodes) {
+        fs.writeFileSync('./lib/app.css', styles);
+      }
+    }),
     // 语法风格检查
     eslint(),
     // 载入

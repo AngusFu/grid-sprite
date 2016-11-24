@@ -1,5 +1,9 @@
 import drawGrid from './drawGrid';
 import calcCanvasSize from './computeCanvasSize';
+import Prism from 'prismjs';
+
+import './app.css';
+import '../node_modules/prismjs/themes/prism.css';
 
 /**
  * 根据图片最大宽高 
@@ -14,33 +18,56 @@ const calcGridSize = (imgs) => {
 };
 
 /**
- * 绘制工作
- * showGuidline: 是否绘制辅助线
+ * 计算每张图片的位置
  */
-const draw = function (context, canvasSize, gridSize, imgs, showGuidline) {
-  let { width, height } = canvasSize;
+const transformImagesToPos = function (context, canvasSize, gridSize, imgs) {
+  let { width } = canvasSize;
   let grid_w = gridSize['width'];
   let grid_h = gridSize['height'];
 
   // 列数
   let cols = width / grid_w;
-  let canvas = context.canvas;
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  canvas.width = width;
-  canvas.height = height;
   
-  showGuidline && drawGrid(context, '#ccc', grid_w, grid_h);
-
-  imgs.forEach((img, i) => {
+  return imgs.map((img, i) => {
     let img_w = img.width;
     let img_h = img.height;
 
-    let left = grid_w * (i % cols) + (grid_w - img_w) / 2;
-    let top  = grid_h * Math.floor(i / cols)+ (grid_h - img_h) / 2;
+    let x = grid_w * (i % cols);
+    let y = grid_h * Math.floor(i / cols);
+    let left = x + (grid_w - img_w) / 2;
+    let top  = y + (grid_h - img_h) / 2;
+
+    return {
+      img,
+      left,
+      top,
+      x: -x,
+      y: -y
+    };
+  });
+};
+
+/**
+ * 绘制工作
+ * showGuidline: 是否绘制辅助线
+ */
+const draw = function (context, canvasSize, gridSize, imgsInfo, showGuidline) {
+  let { width, height } = canvasSize;
+  let grid_w = gridSize['width'];
+  let grid_h = gridSize['height'];
+
+  let canvas = context.canvas;
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  canvas.width = width;
+  canvas.height = height;
+  showGuidline && drawGrid(context, '#ccc', grid_w, grid_h);
+
+  imgsInfo.forEach((imgInfo) => {
+    let {img, left, top} = imgInfo;
     context.drawImage(img, left, top);
   });
 };
+
 
 /**
  * 生成下载链接
@@ -58,9 +85,20 @@ const generateDownload = (context) => {
   download.id = 'download';
   download.href = dataURL;
   download.download = +new Date;
-  download.textContent = '点击此处下载';
+  download.textContent = '点击此处下载图片';
   
   return download;
+};
+
+/**
+ * 生成 CSS 
+ */
+const generateCSS = function (imgInfo) {
+  let {img, x, y} = imgInfo;
+  return `.ico-${img.name} {
+    background-position: ${x}${x === 0 ? '' : 'px'} ${y}${y === 0 ? '' : 'px'};
+}
+`;
 };
 
 /**
@@ -72,42 +110,54 @@ const loadImagePromise = function (file) {
     let img = new Image();
     img.src = url;
     img.onload = function () {
+      img['name'] = file.name.replace(/\.png|jpg$/, '');
       resolve(img);
     };
   });
 };
+
+//--------------------------------------------------------------------------
+// dirty works below
 
 const $           = (id) => document.getElementById(id);
 const context     = $('canvas').getContext('2d');
 const downloadCon = $('jsDownload');
 const selectFile  = $('jsSelectFile');
 const hiddenInput = $('jsFileInput');
+const cssOutput   = $('jsOutput');
 const offlineCxt  = document.createElement('canvas').getContext('2d');
 
 const gridXInput  = $('gridX');
 const gridYInput  = $('gridY');
 
-let images = null;
-let gridSize = {};
+let IMAGES = null;
+let GRID_SIZE = {};
 
 /**
  * 自动计算网格大小
  */
-const updateGridInfo = () => {
-  gridSize = calcGridSize(images);
+const updateGridSize = () => {
+  GRID_SIZE = calcGridSize(IMAGES);
 };
 
 /**
  * 具体绘制工作
  */
 const updateCanvas = () => {
-  let cvsSize  = calcCanvasSize(images, gridSize);
+  let cvsSize  = calcCanvasSize(IMAGES, GRID_SIZE);
 
-  gridXInput.value = gridSize['width'];
-  gridYInput.value = gridSize['height'];
+  gridXInput.value = GRID_SIZE['width'];
+  gridYInput.value = GRID_SIZE['height'];
 
-  draw(context,    cvsSize, gridSize, images, true);
-  draw(offlineCxt, cvsSize, gridSize, images, false);
+  let imgsInfo = transformImagesToPos(context, cvsSize, GRID_SIZE, IMAGES);
+
+  draw(context,    cvsSize, GRID_SIZE, imgsInfo, true);
+  draw(offlineCxt, cvsSize, GRID_SIZE, imgsInfo, false);
+
+  let cssText = imgsInfo.reduce((accu, next) => accu + generateCSS(next), '');
+  cssOutput.innerHTML = `<code class="language-css">${cssText}</code>`;
+  Prism.highlightAll();
+
   downloadCon.appendChild(generateDownload(offlineCxt));
 };
 
@@ -115,11 +165,11 @@ const updateCanvas = () => {
  * 手动设定网格
  */
 gridXInput.addEventListener('change', function() {
-  gridSize['width'] = +this.value;
+  GRID_SIZE['width'] = +this.value;
   updateCanvas();
 });
 gridYInput.addEventListener('change', function() {
-  gridSize['height'] = +this.value;
+  GRID_SIZE['height'] = +this.value;
   updateCanvas();
 });
 
@@ -140,8 +190,8 @@ hiddenInput.addEventListener('change', (e) => {
   let promises = Array.from(files).map(loadImagePromise);
   
   Promise.all(promises).then((imgs) => {
-    images = imgs;
-    updateGridInfo();
+    IMAGES = imgs;
+    updateGridSize();
     updateCanvas();
   });
 });

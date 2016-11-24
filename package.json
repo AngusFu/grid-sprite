@@ -6,8 +6,9 @@
   "scripts": {
     "start": "npm-run-all --parallel watch browser",
     "browser": "browser-sync start --server --reload-delay 1 --files \"*.html,lib/*\"",
-    "watch": "node_modules/.bin/rollup -c -w",
-    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "build": "npm run clean && rollup -c",
+    "clean": "rimraf ./lib && mkdirp ./lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +24,9 @@
     "url": "https://github.com/AngusFu/grid-sprite/issues"
   },
   "homepage": "https://github.com/AngusFu/grid-sprite#readme",
-  "dependencies": {},
+  "dependencies": {
+    "prismjs": "^1.5.1"
+  },
   "devDependencies": {
     "babel-eslint": "^7.0.0",
     "babel-plugin-external-helpers": "^6.8.0",
@@ -32,10 +35,13 @@
     "babel-runtime": "^6.18.0",
     "browser-sync": "^2.17.3",
     "eslint": "^3.7.1",
+    "mkdirp": "^0.5.1",
     "npm-run-all": "^3.1.0",
+    "rimraf": "^2.5.4",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-css-only": "^0.0.4",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-replace": "^1.1.1",

@@ -3,50 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Grid Sprite</title>
-  <style>
-  body {
-    margin: 0;
-    background-color: #efefef;
-  }
-  .container {
-    margin: 0 auto;
-    max-width: 700px;
-  }
-
-  .select {
-    cursor: pointer;
-    border: 2px dashed #0087F7;
-    border-radius: 5px;
-    background: white;
-    padding: 10px 20px;
-  }
-  .file {
-    display: none;
-  }
-
-  .line {
-    display: inline-block;
-    margin: 20px 0;
-  }
-
-  label + input {
-    width: 200px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 16px;
-    padding: 4px;
-  }
-  
-  canvas {
-    display: block;
-    margin: 30px auto;
-    border: 1px solid;
-  }
-
-  .download {
-    text-align: center;
-  }
-  </style>
+  <link rel="stylesheet" href="./lib/app.css">
 </head>
 <body>
   <div class="container" id="jsContainer">
@@ -67,6 +24,8 @@
     <canvas id="canvas"></canvas>
 
     <div class="download" id="jsDownload"></div>
+
+    <pre id="jsOutput" contenteditable></pre>
   </div>
   <script src="./lib/app.js"></script>
 </body>
