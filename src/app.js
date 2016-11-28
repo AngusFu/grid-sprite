@@ -110,7 +110,7 @@ const loadImagePromise = function (file) {
     img.src = url;
     img.onload = function () {
       img['name'] = file.name.replace(/\.png|jpg$/, '');
-      resolve(img);
+      resolve([img, url]);
     };
   });
 };
@@ -189,9 +189,11 @@ hiddenInput.addEventListener('change', (e) => {
   let promises = Array.from(files).map(loadImagePromise);
   
   Promise.all(promises).then((imgs) => {
-    IMAGES = imgs;
+    IMAGES = imgs.map(a => a[0]);
     updateGridSize();
     updateCanvas();
+    // revoke URL
+    imgs.forEach(a => URL.revokeObjectURL(a[1]));
   });
 });
 
