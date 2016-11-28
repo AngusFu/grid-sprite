@@ -17,10 +17,11 @@ const calcGridSize = (imgs) => {
   }, {width:0, height: 0});
 };
 
+
 /**
  * 计算每张图片的位置
  */
-const transformImagesToPos = function (context, canvasSize, gridSize, imgs) {
+const transformImagesToPos = function (context, canvasSize, gridSize, alignCenter, imgs) {
   let { width } = canvasSize;
   let grid_w = gridSize['width'];
   let grid_h = gridSize['height'];
@@ -38,13 +39,14 @@ const transformImagesToPos = function (context, canvasSize, gridSize, imgs) {
 
     return {
       img,
-      left,
-      top,
+      left: alignCenter ? left : x,
+      top: alignCenter ? top : y,
       x: -x,
       y: -y
     };
   });
 };
+
 
 /**
  * 绘制工作
@@ -89,6 +91,23 @@ const generateDownload = (context) => {
   return download;
 };
 
+
+/**
+ * 复制
+ * see https://zhuanlan.zhihu.com/p/23920249
+ */
+const copy = function (element) {
+  let range = document.createRange();
+  range.selectNode(element);
+
+  let selection = window.getSelection();
+  if(selection.rangeCount > 0) selection.removeAllRanges();
+  selection.addRange(range); 
+  document.execCommand('copy');
+  selection.removeAllRanges();
+};
+
+
 /**
  * 生成 CSS 
  */
@@ -115,6 +134,7 @@ const loadImagePromise = function (file) {
   });
 };
 
+
 //--------------------------------------------------------------------------
 // dirty works below
 
@@ -123,6 +143,8 @@ const context     = $('canvas').getContext('2d');
 const downloadCon = $('jsDownload');
 const selectFile  = $('jsSelectFile');
 const hiddenInput = $('jsFileInput');
+const alignCenter = $('alignCenter');
+const codeCopy    = $('jsCopy');
 const cssOutput   = $('jsOutput');
 const offlineCxt  = document.createElement('canvas').getContext('2d');
 
@@ -130,6 +152,7 @@ const gridXInput  = $('gridX');
 const gridYInput  = $('gridY');
 
 let IMAGES = null;
+let ALIGN_CENTER  = true;
 let GRID_SIZE = {};
 
 /**
@@ -148,7 +171,7 @@ const updateCanvas = () => {
   gridXInput.value = GRID_SIZE['width'];
   gridYInput.value = GRID_SIZE['height'];
 
-  let imgsInfo = transformImagesToPos(context, cvsSize, GRID_SIZE, IMAGES);
+  let imgsInfo = transformImagesToPos(context, cvsSize, GRID_SIZE, ALIGN_CENTER, IMAGES);
 
   draw(context,    cvsSize, GRID_SIZE, imgsInfo, true);
   draw(offlineCxt, cvsSize, GRID_SIZE, imgsInfo, false);
@@ -169,6 +192,15 @@ gridXInput.addEventListener('change', function() {
 });
 gridYInput.addEventListener('change', function() {
   GRID_SIZE['height'] = +this.value;
+  updateCanvas();
+});
+
+
+/**
+ * 左上角/居中
+ */
+alignCenter.addEventListener('change', function() {
+  ALIGN_CENTER = this.checked;
   updateCanvas();
 });
 
@@ -197,3 +229,6 @@ hiddenInput.addEventListener('change', (e) => {
   });
 });
 
+codeCopy.addEventListener('click', function () {
+  copy(cssOutput);
+});
